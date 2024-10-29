@@ -20,6 +20,7 @@ model User{
   password String?
   createdAt DateTime @default(now())
   todos Todo[]
+  stats Stats[]
 }
 
 model Todo{
@@ -29,3 +30,12 @@ model Todo{
   userId Int
   user User @relation(fields: [userId] , references: [id])
 }
+
+// model Stats{
+//   id Int @id @default(autoincrement())
+//   date DateTime @default(now())
+//   streakCount Int @default(0)
+//   todoCompleted Int @default(0)
+//   userId Int
+//   user User @relation(fields: [userId] , references: [id])
+// }

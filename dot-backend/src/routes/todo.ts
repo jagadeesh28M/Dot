@@ -1,4 +1,5 @@
-import { Prisma, PrismaClient } from "@prisma/client/edge";
+import { postTodo } from "@jagadeesh28/dot";
+import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
@@ -43,6 +44,13 @@ todoRouter.post("/", async (c) => {
   }).$extends(withAccelerate());
 
   const todo = await c.req.json();
+  const { success } = postTodo.safeParse(todo);
+  if (!success) {
+    c.status(411);
+    return c.json({
+      msg: "Invalid inputs",
+    });
+  }
   try {
     const userId = c.get("userId");
     const addTodo = await prisma.todo.create({
