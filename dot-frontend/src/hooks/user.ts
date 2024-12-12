@@ -17,7 +17,6 @@ export const useUserForm = (type: "signin" | "signup") => {
 
   const sendData = async () => {
     try {
-      // Validate input
       if (type === "signin") {
         if (!validateSignin()) return;
       } else {
@@ -76,6 +75,8 @@ export const useUserForm = (type: "signin" | "signup") => {
     userData,
     setUserData,
     errorMessage,
+    setErrorMessage,
+    setPasswordError,
     passwordError,
     loading,
     sendData,

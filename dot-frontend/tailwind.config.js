@@ -6,6 +6,9 @@ export default {
       scale: {
         200: "2",
       },
+      fontFamily: {
+        roboto: ["Roboto", "sans-serif"],
+      },
     },
   },
   plugins: [],

@@ -13,6 +13,8 @@ export const UserForm = ({ type }: InputType) => {
     userData,
     setUserData,
     errorMessage,
+    setErrorMessage,
+    setPasswordError,
     passwordError,
     loading,
     sendData,
@@ -23,15 +25,23 @@ export const UserForm = ({ type }: InputType) => {
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-8">
-        {type === "signin" ? "Sign In" : "Sign Up"}
-      </h1>
+      <div className="flex-col justify-center items-center">
+        <h1 className="text-4xl font-bold text-center ">
+          {type === "signin" ? "Sign In" : "Sign Up"}
+        </h1>
+        <p className="text-[#4B5563] text-2xl font-roboto text-center my-4">
+          {type == "signin"
+            ? "Welcome back to DOT"
+            : "Start your productivity journey with DOT"}
+        </p>
+      </div>
       {type === "signup" && (
         <Input
           title={"Username"}
           phlabel={"jd123"}
           onChange={(e) => {
             setUserData({ ...userData, username: e.target.value });
+            setErrorMessage("");
           }}
         />
       )}
@@ -40,6 +50,7 @@ export const UserForm = ({ type }: InputType) => {
         phlabel={"name@company.com"}
         onChange={(e) => {
           setUserData({ ...userData, email: e.target.value });
+          setErrorMessage("");
         }}
       />
       <Input
@@ -48,6 +59,8 @@ export const UserForm = ({ type }: InputType) => {
         type={"password"}
         onChange={(e) => {
           setUserData({ ...userData, password: e.target.value });
+          setPasswordError("");
+          setErrorMessage("");
         }}
       />
       {type === "signin" && (
@@ -78,7 +91,7 @@ export const UserForm = ({ type }: InputType) => {
           : "Already have an account? "}
         <a
           onClick={type === "signin" ? toSignup : toSignin}
-          className="underline hover:cursor-pointer text-gray-400"
+          className="underline hover:cursor-pointer text-[#D98B00] hover:text-[#4b49d8]"
         >
           {type === "signin" ? "Sign Up here" : "Sign In here"}
         </a>
