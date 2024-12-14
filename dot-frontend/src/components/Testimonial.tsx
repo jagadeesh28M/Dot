@@ -6,7 +6,7 @@ import { TestimonialCard } from "./TestimonialCard";
 export const Testimonial = () => {
   return (
     <>
-      <div className=" h-auto w-full font-roboto bg-[#F9FAFB]">
+      <div className=" h-auto w-full font-roboto bg-[#FF6B6B]">
         <h1 className="font-bold text-center text-5xl pt-10 pb-3">
           What Our Users Say
         </h1>

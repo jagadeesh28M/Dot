@@ -30,7 +30,7 @@ export const useUserForm = (type: "signin" | "signup") => {
       );
       const jwt = res.data.jwt;
       localStorage.setItem("token", jwt);
-      navigate("/personal-work-space");
+      navigate("/dashboard");
       setLoading(false);
     } catch (e) {
       setLoading(false);

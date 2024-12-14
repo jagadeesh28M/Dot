@@ -63,7 +63,7 @@ export const HeroSection = () => {
 
       {/* Features Section */}
 
-      <div className="flex items-center justify-evenly bg-[#F9FAFB] w-full h-80">
+      <div className="flex items-center justify-evenly bg-[#FF6B6B] w-full h-80">
         <Card
           img={eye}
           title={"Visual Task Management"}

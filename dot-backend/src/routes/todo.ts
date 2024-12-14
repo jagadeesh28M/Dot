@@ -16,7 +16,7 @@ export const todoRouter = new Hono<{
 
 // JWT Authorization check(middleware)
 todoRouter.use("/*", async (c, next) => {
-  const token = c.req.header("Authorization") || "";
+  const token = c.req.header("Authorization")?.replace("Bearer ", "") || "";
   try {
     const jwt = await verify(token, c.env.JWT_SECRET_KEY);
     if (jwt) {

@@ -2,8 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Signin } from "./pages/Signin";
 import { Signup } from "./pages/Signup";
 import { LandingPage } from "./pages/LandingPage";
-import { PersonalWS } from "./pages/PersonalWS";
-
+import { Dashboard } from "./pages/Dashboard";
 function App() {
   return (
     <BrowserRouter>
@@ -11,7 +10,7 @@ function App() {
         <Route path="" element={<LandingPage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
-        <Route path="/personal-work-space" element={<PersonalWS />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );
