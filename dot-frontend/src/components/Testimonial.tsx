@@ -2,11 +2,10 @@ import m1 from "../assets/m1.png";
 import m2 from "../assets/m2.png";
 import m3 from "../assets/m3.png";
 import { TestimonialCard } from "./TestimonialCard";
-
 export const Testimonial = () => {
   return (
     <>
-      <div className=" h-auto w-full font-roboto bg-[#FF6B6B]">
+      <div className=" h-auto w-full font-roboto bg-[#F9FAFB]">
         <h1 className="font-bold text-center text-5xl pt-10 pb-3">
           What Our Users Say
         </h1>

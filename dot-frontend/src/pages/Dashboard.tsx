@@ -1,17 +1,25 @@
+import { useNavigate } from "react-router-dom";
 import { DashboardNav } from "../components/DashboardNav";
 import { Pomodoro } from "../components/Pomodoro";
 import { TodoData } from "../components/TodoData";
+import { useEffect } from "react";
 
 export const Dashboard = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/signin");
+    }
+  }, [navigate]);
   return (
     <>
       <DashboardNav />
-      <div className="grid grid-cols-2 h-auto w-full bg-[#ffe6c6]">
+      <div className="grid grid-cols-2 h-auto w-full bg-[#FFE6D1]">
         <div className="grid grid-rows-2">
-          <div className="bg-[#ffe6c6] p-8">
+          <div className="bg-[#FFE6D1] p-8">
             <Pomodoro />
           </div>
-          <div className="bg-[#ffe6c6] h-full p-6">
+          <div className="bg-[#FFE6D1] h-full p-6">
             <div className="w-full h-full p-2 rounded-xl  bg-white ">
               <div className="w-full h-full bg-red-800 rounded-3xl">
                 <iframe

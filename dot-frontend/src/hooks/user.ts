@@ -28,23 +28,29 @@ export const useUserForm = (type: "signin" | "signup") => {
         `${DATABASE_URL}/api/v1/user/${type}`,
         userData
       );
+      if (res.status == 400) {
+        setErrorMessage("Username or email is already taken");
+      }
       const jwt = res.data.jwt;
       localStorage.setItem("token", jwt);
       navigate("/dashboard");
       setLoading(false);
-    } catch (e) {
+    } catch (e: unknown) {
       setLoading(false);
+      if (e.status == 400) {
+        setErrorMessage(e.response.data.msg);
+        return;
+      }
       setErrorMessage(
         type === "signin"
           ? "Sorry, your password / Email was incorrect. Please double-check your credentials."
           : "An error occurred during signup. Enter a valid Email or Please try again."
       );
-      console.log(e);
     }
   };
 
   const validateSignin = () => {
-    if (userData.password.length <= 6 && userData.password) {
+    if (userData.password.length < 5 && userData.password) {
       setPasswordError("Your password must be at least 6 characters long.");
       return false;
     }
@@ -58,7 +64,7 @@ export const useUserForm = (type: "signin" | "signup") => {
   };
 
   const validateSignup = () => {
-    if (userData.password.length <= 6 && userData.password) {
+    if (userData.password.length <= 5 && userData.password) {
       setPasswordError("Your password must be at least 6 characters long.");
       return false;
     }

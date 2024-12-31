@@ -25,6 +25,17 @@ userRouter.post("/signup", async (c) => {
     });
   }
   try {
+    const doesUserExist = await prisma.user.findFirst({
+      where: {
+        OR: [{ username: body.username }, { email: body.email }],
+      },
+    });
+    if (doesUserExist) {
+      c.status(400);
+      return c.json({
+        msg: "Username or email already taken",
+      });
+    }
     const user = await prisma.user.create({
       data: {
         username: body.username,

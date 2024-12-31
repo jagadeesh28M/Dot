@@ -3,6 +3,8 @@ import { Signin } from "./pages/Signin";
 import { Signup } from "./pages/Signup";
 import { LandingPage } from "./pages/LandingPage";
 import { Dashboard } from "./pages/Dashboard";
+import { Teams } from "./pages/Teams";
+import { Settings } from "./pages/Settings";
 function App() {
   return (
     <BrowserRouter>
@@ -11,6 +13,8 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/teams" element={<Teams />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
     </BrowserRouter>
   );

@@ -8,7 +8,6 @@ import organize from "../assets/organize.png";
 import graph from "../assets/graph.png";
 import { Card } from "../components/Card";
 import { StepsCard } from "./StepsCard";
-
 export const HeroSection = () => {
   const navigate = useNavigate();
   return (
@@ -53,17 +52,15 @@ export const HeroSection = () => {
           </div>
         </div>
         <img
-          className=" rounded-3xl"
+          className="rounded-3xl"
           src={network}
           height={579}
           width={688}
           alt=""
         />
       </div>
-
       {/* Features Section */}
-
-      <div className="flex items-center justify-evenly bg-[#FF6B6B] w-full h-80">
+      <div className="flex items-center justify-evenly bg-[#F9FAFB] w-full h-80">
         <Card
           img={eye}
           title={"Visual Task Management"}
@@ -86,9 +83,7 @@ export const HeroSection = () => {
           }
         />
       </div>
-
       {/* How it works Section */}
-
       <div className=" h-96 w-full font-roboto">
         <h1 className="font-bold text-center text-5xl py-3 mt-10 ">
           How Dot Works

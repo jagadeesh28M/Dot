@@ -23,7 +23,14 @@ export const TodoData = () => {
       <div className="flex-col items-center">
         <div className="relative flex items-center">
           <input
-            onChange={(e) => setTodo({ title: e.target.value })}
+            onChange={(e) => {
+              setTodo({ title: e.target.value });
+            }}
+            onKeyDown={(e) => {
+              if (e.key == "Enter") {
+                handleAddTodo();
+              }
+            }}
             value={todo.title}
             type="text"
             placeholder="What is your next task..."

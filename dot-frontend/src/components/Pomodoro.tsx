@@ -43,7 +43,7 @@ export const Pomodoro: React.FC = () => {
     <div className="h-full flex items-center justify-center rounded-3xl bg-[#ffffff]">
       <div className="text-center">
         <h1 className="text-2xl font-semibold mb-8">Pomodoro Timer</h1>
-        <div className="text-[#ff6b6b] text-7xl font-medium mb-8 tabular-nums">
+        <div className="text-[#ff6b6b] text-7xl font-bold mb-8 tabular-nums">
           {formatTime(timeLeft)}
         </div>
         <div className="flex gap-4 justify-center">
