@@ -3,42 +3,58 @@ import { useNavigate } from "react-router-dom";
 import { DATABASE_URL } from "../config";
 import { useEffect, useState } from "react";
 
+// Define types for response data
+interface UserData {
+  email: string;
+  username: string;
+}
+
 export const useSettings = () => {
-  const [userData, setUserData] = useState({ email: "", username: "" });
+  const [userData, setUserData] = useState<UserData>({
+    email: "",
+    username: "",
+  });
   const [success, setSuccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<string>(""); // Error for general fetch issues
   const [usernameLoading, setUsernameLoading] = useState<boolean>(false);
   const [usernameError, setUsernameError] = useState<string>("");
+
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
+  // Effect to load data or redirect to login
   useEffect(() => {
     if (!token) {
       navigate("/signin"); // Redirect if no token found
     } else {
       getData(); // Fetch user data on load
     }
-  }, []);
+  }, [token, navigate]); // Added token and navigate as dependencies
 
   // Fetch user data
   async function getData() {
     setLoading(true);
     try {
-      const response = await axios.get(`${DATABASE_URL}/api/v1/settings`, {
-        headers: {
-          token: token,
-        },
-      });
+      const response = await axios.get<UserData>(
+        `${DATABASE_URL}/api/v1/settings`,
+        {
+          headers: {
+            token: token!,
+          },
+        }
+      );
       setUserData({
         username: response.data.username,
         email: response.data.email,
       });
       setLoading(false);
-    } catch (error) {
+    } catch (error: unknown) {
       setError("Error fetching data");
       setLoading(false);
-      console.error("Error fetching data", error);
+      if (error instanceof Error) {
+        console.error("Error fetching data", error.message);
+      }
     }
   }
 
@@ -53,12 +69,12 @@ export const useSettings = () => {
     setUsernameError(""); // Clear any previous error
 
     try {
-      const response = await axios.put(
+      const response = await axios.put<{ username: string }>(
         `${DATABASE_URL}/api/v1/settings/username/update`,
         { username: newUsername },
         {
           headers: {
-            token: token,
+            token: token!,
           },
         }
       );
@@ -69,14 +85,17 @@ export const useSettings = () => {
       setSuccess(true);
       setUsernameLoading(false);
       setUsernameError("");
-    } catch (error: any) {
+    } catch (error: unknown) {
       setUsernameLoading(false);
-      if (error.response.data.message === "Username is already taken") {
-        setUsernameError("Username is already taken");
-      } else if (error.response && error.response.data.message) {
-        setUsernameError(error.response.data.message);
-      } else {
-        setUsernameError("An error occurred while updating the username");
+      if (error instanceof Error && (error as any).response) {
+        const errorMsg = (error as any).response.data.message;
+        if (errorMsg === "Username is already taken") {
+          setUsernameError("Username is already taken");
+        } else if (errorMsg) {
+          setUsernameError(errorMsg);
+        } else {
+          setUsernameError("An error occurred while updating the username");
+        }
       }
       console.error("Error updating username", error);
     }
@@ -85,19 +104,19 @@ export const useSettings = () => {
   // Update password logic
   async function updatePassword(currentPassword: string, newPassword: string) {
     try {
-      const response = await axios.put(
+      const response = await axios.put<{ message: string }>(
         `${DATABASE_URL}/api/v1/settings/password/update`,
         { currentPassword, newPassword },
         {
           headers: {
-            token: token,
+            token: token!,
           },
         }
       );
       return response.data;
-    } catch (error: any) {
-      if (error.response && error.response.data) {
-        return { error: error.response.data.message };
+    } catch (error: unknown) {
+      if (error instanceof Error && (error as any).response) {
+        return { error: (error as any).response.data.message };
       }
       return { error: "An error occurred while updating the password" };
     }
@@ -111,6 +130,6 @@ export const useSettings = () => {
     usernameLoading,
     usernameError,
     updateUsername,
-    updatePassword, // Add updatePassword to hook return
+    updatePassword,
   };
 };

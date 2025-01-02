@@ -3,18 +3,28 @@ import { useGetTodos } from "../hooks/Todo";
 import { useAddTodo } from "../hooks/Todo";
 import { Todo } from "./Todo";
 
+interface Todo {
+  id: number;
+  title: string;
+}
+
 export const TodoData = () => {
-  const [todo, setTodo] = useState({ title: "" });
-  const { todos, fetchTodos } = useGetTodos(); // Fetch todos and get the refetch function
+  const [todo, setTodo] = useState<Pick<Todo, "title">>({ title: "" });
+  const { todos, fetchTodos } = useGetTodos();
   const { addTodo, loading, error } = useAddTodo();
 
   const handleAddTodo = async () => {
-    if (!todo.title.trim()) return; // Prevent adding empty todos
+    if (!todo.title.trim()) return;
 
-    const addedTodo = await addTodo(todo);
+    const newTodo: Todo = {
+      id: 0,
+      title: todo.title,
+    };
+
+    const addedTodo = await addTodo(newTodo);
     if (addedTodo) {
       setTodo({ title: "" });
-      fetchTodos(); // Trigger a refetch of todos after adding a new one
+      fetchTodos();
     }
   };
 
@@ -27,7 +37,7 @@ export const TodoData = () => {
               setTodo({ title: e.target.value });
             }}
             onKeyDown={(e) => {
-              if (e.key == "Enter") {
+              if (e.key === "Enter") {
                 handleAddTodo();
               }
             }}

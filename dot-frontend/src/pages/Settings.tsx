@@ -9,20 +9,18 @@ export const Settings = () => {
     userData,
     loading,
     error,
-    success,
     usernameLoading,
-    usernameError,
     updateUsername,
-    updatePassword, // Add updatePassword to call the backend for password update
+    updatePassword,
   } = useSettings();
 
   const [newUsername, setNewUsername] = useState("");
   const [usernameErrorState, setUsernameErrorState] = useState("");
-
-  const [currentPassword, setCurrentPassword] = useState(""); // Add state for current password
-  const [newPassword, setNewPassword] = useState(""); // Add state for new password
-  const [confirmPassword, setConfirmPassword] = useState(""); // Add state for confirm password
-  const [passwordErrorState, setPasswordErrorState] = useState(""); // State for password errors
+  const [currentPassword, setCurrentPassword] = useState(""); // Current password state
+  const [newPassword, setNewPassword] = useState(""); // New password state
+  const [confirmPassword, setConfirmPassword] = useState(""); // Confirm password state
+  const [passwordErrorState, setPasswordErrorState] = useState(""); // Password error state
+  const [passwordLoading, setPasswordLoading] = useState(false); // State for password update loading
 
   const handleUpdateUsername = async () => {
     if (newUsername === "") {
@@ -32,33 +30,35 @@ export const Settings = () => {
         "New username cannot be the same as the current username."
       );
     } else {
+      setUsernameErrorState(""); // Clear previous errors
       const response = await updateUsername(newUsername);
       if (response && response.error === "Username already exists") {
         setUsernameErrorState(
           "This username is already taken. Please choose another one."
         );
       } else {
-        setUsernameErrorState("");
-        setNewUsername("");
+        setNewUsername(""); // Clear input field after success
       }
     }
   };
 
   const handleUpdatePassword = async () => {
-    // Validate the passwords
     if (newPassword !== confirmPassword) {
       setPasswordErrorState("New passwords do not match.");
     } else if (newPassword.length < 6) {
       setPasswordErrorState("Password should be at least 6 characters.");
     } else {
+      setPasswordErrorState(""); // Clear previous errors
+      setPasswordLoading(true);
       const response = await updatePassword(currentPassword, newPassword);
+      setPasswordLoading(false);
+
       if (response && response.error) {
         setPasswordErrorState(response.error);
       } else {
-        setPasswordErrorState("");
-        setCurrentPassword("");
-        setNewPassword("");
-        setConfirmPassword("");
+        setCurrentPassword(""); // Clear current password field
+        setNewPassword(""); // Clear new password field
+        setConfirmPassword(""); // Clear confirm password field
       }
     }
   };
@@ -110,9 +110,7 @@ export const Settings = () => {
               stroke-width="1.5"
               stroke="currentColor"
               className="size-6 mr-3 hover:cursor-pointer font-bold"
-              onClick={() => {
-                navigate("/dashboard");
-              }}
+              onClick={() => navigate("/dashboard")}
             >
               <path
                 stroke-linecap="round"
@@ -124,15 +122,11 @@ export const Settings = () => {
             <img
               src={logo}
               className="h-10 w-10 mr-1 hover:cursor-pointer"
-              onClick={() => {
-                navigate("/dashboard");
-              }}
+              onClick={() => navigate("/dashboard")}
               alt="logo"
             />
             <div
-              onClick={() => {
-                navigate("/dashboard");
-              }}
+              onClick={() => navigate("/dashboard")}
               className="font-extrabold text-3xl hover:cursor-pointer"
             >
               DOT
@@ -145,6 +139,7 @@ export const Settings = () => {
               <h1 className="text-4xl font-semibold">Account Settings</h1>
             </div>
             <div className="p-6 space-y-6">
+              {/* Profile Information */}
               <div className="space-y-2">
                 <h2 className="text-lg font-semibold">Profile Information</h2>
                 <div className="space-y-1">
@@ -192,7 +187,6 @@ export const Settings = () => {
                   >
                     {usernameLoading ? "Updating..." : "Update Username"}
                   </button>
-                  {success && <p className="text-green-500">{success}</p>}
                 </div>
               </div>
 
@@ -236,15 +230,15 @@ export const Settings = () => {
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
                     />
                   </div>
-
                   {passwordErrorState && (
                     <p className="text-red-500 text-sm">{passwordErrorState}</p>
                   )}
                   <button
                     onClick={handleUpdatePassword}
                     className="px-4 py-2 bg-rose-500 text-white rounded-md hover:bg-rose-600 transition-colors"
+                    disabled={passwordLoading}
                   >
-                    Update Password
+                    {passwordLoading ? "Updating..." : "Update Password"}
                   </button>
                 </div>
               </div>
@@ -253,9 +247,7 @@ export const Settings = () => {
               <div className="flex justify-end gap-4 pt-4">
                 <button
                   className="px-4 py-2 bg-rose-500 text-white rounded-md hover:bg-rose-600 transition-colors"
-                  onClick={() => {
-                    navigate("/dashboard");
-                  }}
+                  onClick={() => navigate("/dashboard")}
                 >
                   Done!
                 </button>

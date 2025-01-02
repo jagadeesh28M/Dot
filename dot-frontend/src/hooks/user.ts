@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios"; // Import AxiosError for more specific error typing
 import { DATABASE_URL } from "../config";
 import { SignUpInput } from "@jagadeesh28/dot";
 import { useNavigate } from "react-router-dom";
@@ -28,24 +28,34 @@ export const useUserForm = (type: "signin" | "signup") => {
         `${DATABASE_URL}/api/v1/user/${type}`,
         userData
       );
-      if (res.status == 400) {
+
+      if (res.status === 400) {
         setErrorMessage("Username or email is already taken");
+        setLoading(false);
+        return;
       }
+
       const jwt = res.data.jwt;
       localStorage.setItem("token", jwt);
       navigate("/dashboard");
       setLoading(false);
     } catch (e: unknown) {
       setLoading(false);
-      if (e.status == 400) {
-        setErrorMessage(e.response.data.msg);
-        return;
+
+      // Use AxiosError to handle errors from Axios requests
+      if (e instanceof AxiosError) {
+        if (e.response?.status === 400) {
+          setErrorMessage(e.response?.data.msg || "Bad Request");
+        } else {
+          setErrorMessage(
+            type === "signin"
+              ? "Sorry, your password / Email was incorrect. Please double-check your credentials."
+              : "An error occurred during signup. Enter a valid Email or Please try again."
+          );
+        }
+      } else {
+        setErrorMessage("An unknown error occurred. Please try again.");
       }
-      setErrorMessage(
-        type === "signin"
-          ? "Sorry, your password / Email was incorrect. Please double-check your credentials."
-          : "An error occurred during signup. Enter a valid Email or Please try again."
-      );
     }
   };
 
