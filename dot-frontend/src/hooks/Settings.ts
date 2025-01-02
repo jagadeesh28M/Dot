@@ -69,7 +69,7 @@ export const useSettings = () => {
       setSuccess(true);
       setUsernameLoading(false);
       setUsernameError("");
-    } catch (error) {
+    } catch (error: any) {
       setUsernameLoading(false);
       if (error.response.data.message === "Username is already taken") {
         setUsernameError("Username is already taken");
@@ -95,7 +95,7 @@ export const useSettings = () => {
         }
       );
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       if (error.response && error.response.data) {
         return { error: error.response.data.message };
       }
