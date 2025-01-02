@@ -50,7 +50,7 @@ export const useUserForm = (type: "signin" | "signup") => {
   };
 
   const validateSignin = () => {
-    if (userData.password.length < 5 && userData.password) {
+    if (userData.password.length < 7 && userData.password) {
       setPasswordError("Your password must be at least 6 characters long.");
       return false;
     }
@@ -64,7 +64,7 @@ export const useUserForm = (type: "signin" | "signup") => {
   };
 
   const validateSignup = () => {
-    if (userData.password.length <= 5 && userData.password) {
+    if (userData.password.length < 7 && userData.password) {
       setPasswordError("Your password must be at least 6 characters long.");
       return false;
     }

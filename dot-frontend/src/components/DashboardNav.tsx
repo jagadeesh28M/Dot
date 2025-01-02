@@ -6,15 +6,6 @@ export const DashboardNav = () => {
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  function logout() {
-    localStorage.clear();
-    navigate("/signin");
-  }
-
-  function settings() {
-    navigate("/settings");
-  }
-
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -57,12 +48,7 @@ export const DashboardNav = () => {
           </div>
         </div>
         <div className="mx-3 h-16 flex items-center gap-6 w-64 my-3">
-          <button
-            onClick={() => {
-              navigate("/teams");
-            }}
-            className="flex items-center justify-evenly gap-2 p-2 ml-6 h-9 w-auto rounded-lg text-white font-roboto hover:ease-in-out duration-200 bg-[#FF6363] hover:bg-[#504ea3]"
-          >
+          <button className="flex items-center justify-evenly gap-2 p-2 ml-6 h-9 w-auto rounded-lg text-white font-roboto hover:ease-in-out duration-200 bg-[#FF6363] hover:bg-[#504ea3]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
@@ -96,13 +82,18 @@ export const DashboardNav = () => {
               <ul>
                 <li
                   className="py-1 px-3 text-sm  hover:bg-gray-100 hover:rounded cursor-pointer"
-                  onClick={settings}
+                  onClick={() => {
+                    navigate("/settings");
+                  }}
                 >
                   Settings
                 </li>
                 <li
                   className="py-1 px-3 text-sm font-semibold text-red-600 hover:bg-red-100 hover:rounded cursor-pointer"
-                  onClick={logout}
+                  onClick={() => {
+                    localStorage.clear();
+                    navigate("/signin");
+                  }}
                 >
                   Logout
                 </li>
