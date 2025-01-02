@@ -47,19 +47,7 @@ export const DashboardNav = () => {
             DOT
           </div>
         </div>
-        <div className="mx-3 h-16 flex items-center gap-6 w-64 my-3">
-          <button className="flex items-center justify-evenly gap-2 p-2 ml-6 h-9 w-auto rounded-lg text-white font-roboto hover:ease-in-out duration-200 bg-[#FF6363] hover:bg-[#504ea3]">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="size-5"
-            >
-              <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM1.49 15.326a.78.78 0 0 1-.358-.442 3 3 0 0 1 4.308-3.516 6.484 6.484 0 0 0-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 0 1-2.07-.655ZM16.44 15.98a4.97 4.97 0 0 0 2.07-.654.78.78 0 0 0 .357-.442 3 3 0 0 0-4.308-3.517 6.484 6.484 0 0 1 1.907 3.96 2.32 2.32 0 0 1-.026.654ZM18 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5.304 16.19a.844.844 0 0 1-.277-.71 5 5 0 0 1 9.947 0 .843.843 0 0 1-.277.71A6.975 6.975 0 0 1 10 18a6.974 6.974 0 0 1-4.696-1.81Z" />
-            </svg>
-            <div className="text-medium">Have a Team?</div>
-          </button>
-
+        <div className="mx-10 h-16 flex items-center justify-end gap-6 w-64 my-3">
           <svg
             id="dropdownButton"
             xmlns="http://www.w3.org/2000/svg"
