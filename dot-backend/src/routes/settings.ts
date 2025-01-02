@@ -76,3 +76,46 @@ settingsRouter.put("/username/update", async (c) => {
     return c.json({ message: "Invalid or expired token" }, 401);
   }
 });
+
+settingsRouter.put("/password/update", async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  const jwt = c.req.header("token");
+  const { currentPassword, newPassword } = await c.req.json();
+  if (!jwt) {
+    c.status(404);
+    return c.json({
+      message: "Login First",
+    });
+  }
+  try {
+    const token = await verify(jwt, c.env.JWT_SECRET_KEY);
+    const getPassword = await prisma.user.findFirst({
+      where: {
+        id: token.id,
+      },
+    });
+    if (currentPassword.trim() === getPassword?.password?.trim()) {
+      const updatePassword = await prisma.user.update({
+        where: {
+          id: token.id,
+        },
+        data: {
+          password: newPassword,
+        },
+      });
+      return c.json({
+        msg: "Password Updated",
+        password: newPassword,
+      });
+    } else {
+      throw new Error("Current password does not match.");
+    }
+  } catch (e) {
+    c.status(400);
+    return c.json({
+      msg: e.message,
+    });
+  }
+});
