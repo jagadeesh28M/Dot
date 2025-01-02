@@ -35,13 +35,18 @@ export const useAddTodo = () => {
       console.log("Todo added successfully:", response.data);
       setLoading(false);
       return response.data;
-    } catch (error: AxiosError) {
+    } catch (error: unknown) {
       setLoading(false);
-      setError(error.response?.data.message || error.message);
-      console.error(
-        "Error adding todo:",
-        error.response?.data || error.message
-      );
+      if (error instanceof AxiosError) {
+        setError(error.response?.data.message || error.message);
+        console.error(
+          "Error adding todo:",
+          error.response?.data || error.message
+        );
+      } else {
+        setError("An unknown error occurred");
+        console.error("Error adding todo:", error);
+      }
     }
   };
 
@@ -73,10 +78,15 @@ export const useGetTodos = () => {
       );
       setTodos(response.data.todos);
       setLoading(false);
-    } catch (error: AxiosError) {
+    } catch (error: unknown) {
       setLoading(false);
-      setError(error.response?.data.message || error.message);
-      console.error("Error fetching todos:", error.message);
+      if (error instanceof AxiosError) {
+        setError(error.response?.data.message || error.message);
+        console.error("Error fetching todos:", error.message);
+      } else {
+        setError("An unknown error occurred");
+        console.error("Error fetching todos:", error);
+      }
     }
   };
 
@@ -102,8 +112,12 @@ export const useDeleteTodo = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-    } catch (error: AxiosError) {
-      console.error("Error deleting todo:", error.message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        console.error("Error deleting todo:", error.message);
+      } else {
+        console.error("Error deleting todo:", error);
+      }
     }
   };
 
@@ -128,8 +142,12 @@ export const useUpdateTodo = () => {
           },
         }
       );
-    } catch (e: AxiosError) {
-      console.log(e.message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        console.log(error.message);
+      } else {
+        console.log("Error updating todo:", error);
+      }
     }
   };
 

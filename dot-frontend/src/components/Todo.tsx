@@ -12,12 +12,16 @@ export const Todo = ({ todo, id, fetchTodos }: TodoCheck) => {
   const [status, setStatus] = useState<boolean>(false);
   const deleteTodo = useDeleteTodo();
   const updateTodo = useUpdateTodo();
+
   const dTodo = async () => {
-    await deleteTodo(id);
+    await deleteTodo(id); // Pass only the id for delete operation
     fetchTodos(); // Re-fetch todos from the parent component
   };
+
   const uTodo = async () => {
-    await updateTodo(id);
+    // Assuming you want to toggle the "status" and possibly change the title
+    const newTitle = status ? `${todo} (Completed)` : todo;
+    await updateTodo(id, newTitle); // Pass both id and the updated title
     setStatus((prev) => !prev);
   };
 

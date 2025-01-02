@@ -11,8 +11,9 @@ export const DashboardNav = () => {
   };
 
   // Close dropdown when clicking outside
-  const handleOutsideClick = (event) => {
-    if (event.target.closest("#dropdownButton") === null) {
+  const handleOutsideClick = (event: MouseEvent) => {
+    const target = event.target as HTMLElement; // Cast event.target to HTMLElement
+    if (target && !target.closest("#dropdownButton")) {
       setIsDropdownOpen(false);
     }
   };
@@ -42,7 +43,7 @@ export const DashboardNav = () => {
             onClick={() => {
               navigate("/dashboard");
             }}
-            className=" font-extrabold text-3xl hover:cursor-pointer"
+            className="font-extrabold text-3xl hover:cursor-pointer"
           >
             DOT
           </div>
@@ -69,7 +70,7 @@ export const DashboardNav = () => {
             <div className="absolute top-11 right-2 mt-2 w-48 bg-white shadow-md rounded-md p-2">
               <ul>
                 <li
-                  className="py-1 px-3 text-sm  hover:bg-gray-100 hover:rounded cursor-pointer"
+                  className="py-1 px-3 text-sm hover:bg-gray-100 hover:rounded cursor-pointer"
                   onClick={() => {
                     navigate("/settings");
                   }}
