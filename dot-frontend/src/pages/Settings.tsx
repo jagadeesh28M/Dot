@@ -11,7 +11,6 @@ export const Settings = () => {
     error,
     success,
     usernameLoading,
-    usernameError,
     updateUsername,
     updatePassword, // Add updatePassword to call the backend for password update
   } = useSettings();
@@ -32,15 +31,9 @@ export const Settings = () => {
         "New username cannot be the same as the current username."
       );
     } else {
-      const response = await updateUsername(newUsername);
-      if (response && response.error === "Username already exists") {
-        setUsernameErrorState(
-          "This username is already taken. Please choose another one."
-        );
-      } else {
-        setUsernameErrorState("");
-        setNewUsername("");
-      }
+      await updateUsername(newUsername);
+      setUsernameErrorState("");
+      setNewUsername("");
     }
   };
 
@@ -51,15 +44,12 @@ export const Settings = () => {
     } else if (newPassword.length < 6) {
       setPasswordErrorState("Password should be at least 6 characters.");
     } else {
-      const response = await updatePassword(currentPassword, newPassword);
-      if (response && response.error) {
-        setPasswordErrorState(response.error);
-      } else {
-        setPasswordErrorState("");
-        setCurrentPassword("");
-        setNewPassword("");
-        setConfirmPassword("");
-      }
+      await updatePassword(currentPassword, newPassword);
+
+      setPasswordErrorState("");
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
     }
   };
 
